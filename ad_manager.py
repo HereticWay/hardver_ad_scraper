@@ -25,7 +25,7 @@ class AdManager:
 
         ads: list[Ad] = []
         with open(ADS_FILE, 'r') as file:
-            for ad_dict in json.loads(file.readline()):
+            for ad_dict in json.loads(file.read()):
                 ads.append(Ad(**ad_dict))
         return ads
 
