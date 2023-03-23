@@ -75,20 +75,20 @@ class AdExtractor:
 
             # Note: something(...) is equal to something.find_all(...)!
             title_col = row.find(attrs={'class': 'uad-title'})
-            title = title_col.a.text
-            link = title_col.a['href']
+            title = title_col.a.text.strip()
+            link = title_col.a['href'].strip()
             is_frozen = False
             if title_col.p:
                 is_frozen = True
 
             info_col = row.find(attrs={'class': 'uad-info'})
-            price = info_col.find(attrs={'class': 'uad-price'}).text
-            city = info_col.find(attrs={'class': 'uad-light'}).text
+            price = info_col.find(attrs={'class': 'uad-price'}).text.strip()
+            city = info_col.find(attrs={'class': 'uad-light'}).text.strip()
 
             misc_col = row.find(attrs={'class': 'uad-misc'})
             seller_data = misc_col.find_all(attrs={'class': 'uad-light'})
-            seller_name = seller_data[0].a.text
-            seller_rating = seller_data[1].span.text
+            seller_name = seller_data[0].a.text.strip()
+            seller_rating = seller_data[1].span.text.strip()
 
             ad = Ad(
                 title=title,
