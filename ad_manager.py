@@ -31,7 +31,7 @@ class AdManager:
 
     def save_ads(self) -> None:
         with open(ADS_FILE, 'w') as file:
-            file.write(json.dumps(self.ads, cls=AdJSONEncoder))
+            file.write(json.dumps(self.ads, cls=AdJSONEncoder, indent=4))
 
     def update_ads_and_return_new_ones(self) -> list[Ad]:
         ads = self.ad_extractor.get_ads()
