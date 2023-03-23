@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 
-import time
 import traceback
 import asyncio
-from operator import itemgetter
 from http.client import HTTPException
 from texttable import Texttable
 from ad_extractor import Ad
@@ -15,7 +13,7 @@ URL = (
     '&stcid=&stmid_text=&stmid=&minprice=&maxprice=&cmpid_text=&cmpid=&usrid_text=&usrid='
     '&__buying=0&__buying=1&stext_none=')
 
-TIME_BETWEEN_UPDATES = 60*15 # seconds
+TIME_BETWEEN_UPDATES = 60*15  # seconds
 
 
 def print_table(ads_list: list[Ad]) -> None:

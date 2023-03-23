@@ -40,4 +40,3 @@ class AdManager:
         self.ads = ads
 
         return new_ads
-

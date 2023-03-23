@@ -4,6 +4,7 @@ from ad_extractor import Ad
 from dbus_next.signature import Variant
 import webbrowser
 
+
 class DesktopNotificationManager:
     def __init__(self) -> None:
         pass
