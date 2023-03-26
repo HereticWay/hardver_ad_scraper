@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hardverdealscraper"
+description = "A helper web scraper library for HardverHunt."
+version = "1.0.0"
+authors = [
+    {name = "Adam Madar", email = "vpleft@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+dependencies = [
+    "BeautifulSoup4",
+]

@@ -7,7 +7,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
 
 
-class Ad:
+class Deal:
     __slots__ = (
         'title',
         'link',
@@ -28,14 +28,14 @@ class Ad:
         self.seller_rating = seller_rating
 
     def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, Ad):
+        if isinstance(__o, Deal):
             return self.link == __o.link
 
         return False
 
 
-class AdJSONEncoder(JSONEncoder):
-    def default(self, o: Ad) -> dict[str, Any]:
+class DealJSONEncoder(JSONEncoder):
+    def default(self, o: Deal) -> dict[str, Any]:
         return dict(
             zip(
                 o.__slots__,
@@ -50,17 +50,17 @@ class AdJSONEncoder(JSONEncoder):
                 ]))
 
 
-class AdExtractor:
+class DealExtractor:
     """A simple class to get all the deals from a hardverapro.hu link"""
 
     def __init__(self, url: str) -> None:
         self.__url: str = url
 
-    def get_ads(self) -> list[Ad]:
+    def get_ads(self) -> list[Deal]:
         content = urlopen(self.__url).read()
         soup = BeautifulSoup(content, features='html.parser')
         ad_container = soup.find('div', attrs={'class': 'uad-list'})
-        ads_list: list[Ad] = []
+        ads_list: list[Deal] = []
 
         # Return if there is no data to process
         if not isinstance(ad_container, Tag):
@@ -90,7 +90,7 @@ class AdExtractor:
             seller_name = seller_data[0].a.text.strip()
             seller_rating = seller_data[1].span.text.strip()
 
-            ad = Ad(
+            ad = Deal(
                 title=title,
                 link=link,
                 price=price,
