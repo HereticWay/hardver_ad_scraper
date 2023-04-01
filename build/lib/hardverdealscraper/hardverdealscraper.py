@@ -1,11 +1,53 @@
 # My simple messy script to get all ads from a harverapro link
 # By Ádám Madar
 
-import json
+from json import JSONEncoder
 from typing import Any
 from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
-from deal import Deal, DealJSONDecoder, DealJSONEncoder
+
+
+class Deal:
+    __slots__ = (
+        'title',
+        'link',
+        'price',
+        'is_frozen',
+        'city',
+        'seller_name',
+        'seller_rating'
+    )
+
+    def __init__(self, title: str, link: str, price: str, is_frozen: bool, city: str, seller_name: str, seller_rating: str) -> None:
+        self.title = title
+        self.link = link
+        self.price = price
+        self.is_frozen = is_frozen
+        self.city = city
+        self.seller_name = seller_name
+        self.seller_rating = seller_rating
+
+    def __eq__(self, __o: object) -> bool:
+        if isinstance(__o, Deal):
+            return self.link == __o.link
+
+        return False
+
+
+class DealJSONEncoder(JSONEncoder):
+    def default(self, o: Deal) -> dict[str, Any]:
+        return dict(
+            zip(
+                o.__slots__,
+                [
+                    o.title,
+                    o.link,
+                    o.price,
+                    o.is_frozen,
+                    o.city,
+                    o.seller_name,
+                    o.seller_rating
+                ]))
 
 
 class DealExtractor:
