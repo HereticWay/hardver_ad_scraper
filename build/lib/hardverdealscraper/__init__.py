@@ -1,1 +1,0 @@
-from hardverdealscraper.hardverdealscraper import Deal, DealExtractor, DealJSONEncoder

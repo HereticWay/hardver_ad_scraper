@@ -5,7 +5,7 @@ import json
 from typing import Any
 from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
-from deal import Deal, DealJSONDecoder, DealJSONEncoder
+from .deal import Deal, DealJSONDecoder, DealJSONEncoder
 
 
 class DealExtractor:

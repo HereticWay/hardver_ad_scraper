@@ -1,2 +1,2 @@
-from hardverdealscraper.hardverdealscraper import DealExtractor
-from hardverdealscraper.deal import Deal, DealJSONDecoder, DealJSONEncoder
+from .hardverdealscraper import DealExtractor
+from .deal import Deal, DealJSONDecoder, DealJSONEncoder
