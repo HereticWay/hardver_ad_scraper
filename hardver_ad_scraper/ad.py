@@ -2,7 +2,7 @@ import json
 from typing import Any
 
 
-class Deal:
+class Ad:
     # __slots__ = (
     #     'title',
     #     'link',
@@ -23,7 +23,7 @@ class Deal:
         self.seller_rating = seller_rating
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Deal):
+        if isinstance(other, Ad):
             return (
                 self.title == other.title and
                 self.link == other.link and
@@ -36,9 +36,9 @@ class Deal:
         return False
 
 
-class DealJSONEncoder(json.JSONEncoder):
-    def default(self, obj: Deal) -> dict[str, Any]:
-        if isinstance(obj, Deal):
+class AdJSONEncoder(json.JSONEncoder):
+    def default(self, obj: Ad) -> dict[str, Any]:
+        if isinstance(obj, Ad):
             return {
                 'title': obj.title,
                 'link': obj.link,
@@ -52,12 +52,12 @@ class DealJSONEncoder(json.JSONEncoder):
             return super().default(obj)
 
 
-class DealJSONDecoder(json.JSONDecoder):
+class AdJSONDecoder(json.JSONDecoder):
     def __init__(self, *args, **kwargs):
         json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, obj):
-        return Deal(
+        return Ad(
             obj['title'],
             obj['link'],
             obj['price'],

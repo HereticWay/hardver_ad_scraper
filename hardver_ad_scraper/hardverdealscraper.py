@@ -5,7 +5,7 @@ import json
 from typing import Any
 from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
-from .deal import Deal, DealJSONDecoder, DealJSONEncoder
+from .ad import Ad, AdJSONDecoder, AdJSONEncoder
 
 
 class DealExtractor:
@@ -14,11 +14,11 @@ class DealExtractor:
     def __init__(self, url: str) -> None:
         self.__url: str = url
 
-    def get_ads(self) -> list[Deal]:
+    def get_ads(self) -> list[Ad]:
         content = urlopen(self.__url).read()
         soup = BeautifulSoup(content, features='html.parser')
         ad_container = soup.find('div', attrs={'class': 'uad-list'})
-        ads_list: list[Deal] = []
+        ads_list: list[Ad] = []
 
         # Return if there is no data to process
         if not isinstance(ad_container, Tag):
@@ -48,7 +48,7 @@ class DealExtractor:
             seller_name = seller_data[0].a.text.strip()
             seller_rating = seller_data[1].span.text.strip()
 
-            ad = Deal(
+            ad = Ad(
                 title=title,
                 link=link,
                 price=price,
