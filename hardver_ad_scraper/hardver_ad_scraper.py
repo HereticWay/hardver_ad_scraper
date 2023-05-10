@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup, Tag
 from .ad import Ad, AdJSONDecoder, AdJSONEncoder
 
 
-class DealExtractor:
-    """A simple class to get all the deals from a hardverapro.hu link"""
+class HardverAdScraper:
+    """A simple class to scrape all the ads from a hardverapro.hu link"""
 
     def __init__(self, url: str) -> None:
         self.__url: str = url
