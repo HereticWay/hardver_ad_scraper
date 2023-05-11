@@ -1,11 +1,7 @@
-# My simple messy script to get all ads from a harverapro link
-# By Ádám Madar
-
-import json
 from typing import Any
 from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
-from .ad import Ad, AdJSONDecoder, AdJSONEncoder
+from .ad import Ad
 
 
 class HardverAdScraper:
@@ -24,38 +20,47 @@ class HardverAdScraper:
         if not isinstance(ad_container, Tag):
             return []
 
-        rows = ad_container.find_all(attrs={'class': 'media-body'})
+        rows = ad_container.find_all(attrs={'class': 'media'})
         for row in rows:
             # If it's a sponsored ad
-            if 'featured' in row.parent['class']:
+            if 'featured' in row['class']:
                 # Then skip it
                 continue
 
+            image_url = f'https:{row.img["data-retina-url"]}'
+
+            row_body = row.find(attrs={'class': 'media-body'})
+
             # Note: something(...) is equal to something.find_all(...)!
-            title_col = row.find(attrs={'class': 'uad-title'})
+            title_col = row_body.find(attrs={'class': 'uad-title'})
             title = title_col.a.text.strip()
             link = title_col.a['href'].strip()
             is_frozen = False
             if title_col.p:
                 is_frozen = True
 
-            info_col = row.find(attrs={'class': 'uad-info'})
+            info_col = row_body.find(attrs={'class': 'uad-info'})
             price = info_col.find(attrs={'class': 'uad-price'}).text.strip()
             city = info_col.find(attrs={'class': 'uad-light'}).text.strip()
 
-            misc_col = row.find(attrs={'class': 'uad-misc'})
+            misc_col = row_body.find(attrs={'class': 'uad-misc'})
             seller_data = misc_col.find_all(attrs={'class': 'uad-light'})
             seller_name = seller_data[0].a.text.strip()
-            seller_rating = seller_data[1].span.text.strip()
+            positive_rating_span = seller_data[1].find(attrs={'class': 'uad_rating_positive'})
+            negative_rating_span = seller_data[1].find(attrs={'class': 'uad_rating_negative'})
+            seller_rating_positive = positive_rating_span.text.strip() if positive_rating_span else 'N.A.'
+            seller_rating_negative = negative_rating_span.text.strip() if negative_rating_span else 'N.A.'
 
             ad = Ad(
                 title=title,
+                image_url=image_url,
                 link=link,
                 price=price,
                 is_frozen=is_frozen,
                 city=city,
                 seller_name=seller_name,
-                seller_rating=seller_rating,
+                seller_rating_positive=seller_rating_positive,
+                seller_rating_negative=seller_rating_negative
             )
             ads_list.append(ad)
 
