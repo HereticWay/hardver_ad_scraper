@@ -27,7 +27,10 @@ class HardverAdScraper:
                 # Then skip it
                 continue
 
-            image_url = f'https:{row.img["data-retina-url"]}'
+            if 'data-retina-url' in row.img:
+                image_url = row.img['data-retina-url']
+            else:
+                image_url = row.img['src']
 
             row_body = row.find(class_='media-body')
 
